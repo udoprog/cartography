@@ -29,13 +29,11 @@ unsigned long file_size(char *filename);
 class Level{
   private:
     int mapsize;
-
-    Color BlockC[256];
-
     unsigned char *databuffer;
+    Color *BlockC;
   
   public:
-    Level();
+    Level(Color *blockcolors);
     ~Level();
 
     void Save(char* name);

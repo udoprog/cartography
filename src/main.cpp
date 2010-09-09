@@ -260,6 +260,88 @@ int save_txt(string txtname, int cc, Level &foo)
     return 0;
 }
 
+Color *setup_colors() {
+  Color *colors = new Color[256];
+  
+  colors[0] = Color(255,255,255,0);
+  colors[1] = Color(120,120,120,255);
+  colors[2] = Color(117,176,73,255);
+  colors[3] = Color(134,96,67,255);
+  colors[4] = Color(115,115,115,255);
+  colors[48] = Color(115,115,115,255);
+  colors[5] = Color(157,128,79,255);
+  colors[6] = Color(120,120,120,0);
+  colors[7] = Color(84,84,84,255);
+  colors[8] = Color(38,92,255,51);
+  colors[9] = Color(38,92,255,51);
+  colors[10] = Color(255,90,0,255);
+  colors[11] = Color(255,90,0,255);
+  colors[12] = Color(218,210,158,255);
+  colors[13] = Color(136,126,126,255);
+  colors[14] = Color(143,140,125,255);
+  colors[15] = Color(136,130,127,255);
+  colors[16] = Color(115,115,115,255);
+  colors[17] = Color(102,81,51,255);
+  colors[18] = Color(60,192,41,100);
+  colors[20] = Color(255,255,255,64); //glass
+  //colors[21] = Color(222,50,50,255);
+  //colors[22] = Color(222,136,50,255);
+  //colors[23] = Color(222,222,50,255);
+  //colors[24] = Color(136,222,50,255);
+  //colors[25] = Color(50,222,50,255);
+  //colors[26] = Color(50,222,136,255);
+  //colors[27] = Color(50,222,222,255);
+  //colors[28] = Color(104,163,222,255);
+  //colors[29] = Color(120,120,222,255);
+  //colors[30] = Color(136,50,222,255);
+  //colors[31] = Color(174,74,222,255);
+  //colors[32] = Color(222,50,222,255);
+  //colors[33] = Color(222,50,136,255);
+  //colors[34] = Color(77,77,77,255);
+  colors[35] = Color(222,222,222,255); //Color(143,143,143,255); 
+  //colors[36] = Color(222,222,222,255);
+  colors[37] = Color(255,0,0,255);
+  colors[38] = Color(255,255,0,0);
+  colors[41] = Color(232,245,46,255);
+  colors[42] = Color(191,191,191,255);
+  colors[43] = Color(200,200,200,255);
+  colors[44] = Color(200,200,200,255);
+  colors[45] = Color(170,86,62,255);
+  colors[46] = Color(160,83,65,255);
+  colors[49] = Color(26,11,43,255);
+  colors[50] = Color(245,220,50,200);
+  colors[51] = Color(255,170,30,200);
+  //colors[52] = Color(245,220,50,255); unnecessary afaik
+  colors[53] = Color(157,128,79,255);
+  colors[54] = Color(125,91,38,255);
+  //colors[55] = Color(245,220,50,255); unnecessary afaik
+  colors[56] = Color(129,140,143,255);
+  colors[57] = Color(45,166,152,255);
+  colors[58] = Color(114,88,56,255);
+  colors[59] = Color(146,192,0,255);
+  colors[60] = Color(95,58,30,255);
+  colors[61] = Color(96,96,96,255);
+  colors[62] = Color(96,96,96,255);
+  colors[63] = Color(111,91,54,255);
+  colors[64] = Color(136,109,67,255);
+  colors[65] = Color(181,140,64,32);
+  colors[66] = Color(150,134,102,180);
+  colors[67] = Color(115,115,115,255);
+  colors[71] = Color(191,191,191,255);
+  colors[73] = Color(131,107,107,255);
+  colors[74] = Color(131,107,107,255);
+  colors[75] = Color(181,140,64,32);
+  colors[76] = Color(255,0,0,200);
+  colors[78] = Color(255,255,255,255);
+  colors[79] = Color(83,113,163,51);
+  colors[80] = Color(250,250,250,255);
+  colors[81] = Color(25,120,25,255);
+  colors[82] = Color(151,157,169,255);
+  colors[83] = Color(193,234,150,255);
+
+  return colors;
+}
+
 void do_work(settings_t *s, string path, string out) {
   string txtname = out + ".txt";
   string pngname = out + ".png";
@@ -272,8 +354,10 @@ void do_work(settings_t *s, string path, string out) {
   list<render> renderblocks;
 
   int cc = 0;
+
+  Color *colors = setup_colors();
   
-  Level foo;
+  Level foo(colors);
   
   cout << "Unpacking and drawing... " << flush;
 
@@ -285,11 +369,14 @@ void do_work(settings_t *s, string path, string out) {
     cout << p << endl;
     
     const render *temp = foo.LoadLevelFromFile(s, p.c_str(), s->slide, s->water, cut);
+    
     if(temp->isgood){
       cc++;
       renderblocks.push_back(*temp);
     }
   }
+
+  delete [] colors;
   
   cout << "done!" << endl;
   
